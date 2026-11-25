@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080c18">
+  <meta name="description" content="Explore the source code, development areas and research notes for LacikaProject.">
+  <title>Source Code | LacikaProject</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="navbar">
+  <a class="logo" href="index.html">Lacika<span>Project</span></a>
+  <button class="menu-button" id="menuButton" aria-expanded="false" aria-controls="menuPanel">
+    <span>☰</span> Menu
+  </button>
+</header>
+
+<nav class="menu-panel" id="menuPanel" hidden>
+  <a href="devices.html">📱 Supported Devices</a>
+  <a href="redeem.html">🎁 Gift Cards &amp; Redeem</a>
+  <a href="gallery.html">🖼️ Screenshots / Gallery</a>
+  <a href="source.html">💻 Source Code</a>
+  <a href="releases.html">📦 Releases</a>
+  <a href="changelog.html">📋 Changelog</a>
+  <a href="updates.html">✨ What's New / Update Log</a>
+  <a href="settings.html">⚙️ Settings</a>
+  <a href="docs.html">📚 Documentation</a>
+  <a href="about.html">ℹ️ About LacikaProject</a>
+</nav>
+
+<main>
+  <section class="page-header">
+    <p class="tag">DEVELOPMENT • RESEARCH • TRANSPARENCY</p>
+    <h1>Source <span>Code</span></h1>
+    <p>Explore the LacikaProject repository, follow development and review the work that is actually available.</p>
+  </section>
+
+  <section class="glass-card">
+    <p class="tag">MAIN REPOSITORY</p>
+    <h2>LacikaProject on GitHub</h2>
+    <p>The repository contains project documentation, research notes and development scaffolding. Check each component's status before treating it as implemented or functional.</p>
+    <a class="button" href="https://github.com/filipdanielisback-commits/LacikaProject" target="_blank" rel="noopener noreferrer">Open GitHub Repository ↗</a>
+  </section>
+
+  <section class="portfolio-section">
+    <p class="tag">EXPLORE THE CODEBASE</p>
+    <h2>Development areas</h2>
+    <div class="portfolio-grid">
+      <article class="glass-card portfolio-item">
+        <h3>Kernel research</h3>
+        <p>Research and documentation for Apple's public XNU source and possible LacikaProject adaptations.</p>
+        <a href="https://github.com/filipdanielisback-commits/LacikaProject/tree/main/research/kernel" target="_blank" rel="noopener noreferrer">View kernel research ↗</a>
+      </article>
+      <article class="glass-card portfolio-item">
+        <h3>Hardware research</h3>
+        <p>Device and hardware investigations. Moto G60 (hanoip) is an experimental research target, not a verified port.</p>
+        <a href="https://github.com/filipdanielisback-commits/LacikaProject/tree/main/research/hardware" target="_blank" rel="noopener noreferrer">View hardware research ↗</a>
+      </article>
+      <article class="glass-card portfolio-item">
+        <h3>LacikaWiFi</h3>
+        <p>Early C driver interface and research scaffold. Real Wi-Fi scanning, connection and data transfer are not yet verified.</p>
+        <a href="https://github.com/filipdanielisback-commits/LacikaProject/tree/main/drivers/wifi" target="_blank" rel="noopener noreferrer">View LacikaWiFi ↗</a>
+      </article>
+      <article class="glass-card portfolio-item">
+        <h3>Documentation</h3>
+        <p>Project goals, development notes, device research and current limitations.</p>
+        <a href="https://github.com/filipdanielisback-commits/LacikaProject/tree/main/docs" target="_blank" rel="noopener noreferrer">View documentation ↗</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="glass-card">
+    <p class="tag">CONTRIBUTE</p>
+    <h2>Help improve the project</h2>
+    <p>Before proposing changes, read the contribution and security guidelines. Do not submit proprietary Apple system files, personal data, firmware dumps or material you do not have permission to share.</p>
+    <div class="button-group">
+      <a class="button" href="https://github.com/filipdanielisback-commits/LacikaProject/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">Contribution Guide ↗</a>
+      <a class="button button-secondary" href="https://github.com/filipdanielisback-commits/LacikaProject/issues" target="_blank" rel="noopener noreferrer">View Issues ↗</a>
+    </div>
+  </section>
+
+  <section class="glass-card">
+    <p class="tag">IMPORTANT</p>
+    <h2>Project status and licensing</h2>
+    <p>LacikaProject is experimental Darwin/XNU research. It is not a complete iOS distribution, and no working Moto G60 port or bootable image is claimed here.</p>
+    <p>A repository being publicly viewable does not automatically grant permission to reuse its code. Check the repository's current licence and the licence of every dependency before copying, modifying or redistributing code. A project licence has not yet been selected.</p>
+  </section>
+</main>
+
+<footer>
+  <p>© 2026 LacikaProject. Independent experimental project.</p>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
