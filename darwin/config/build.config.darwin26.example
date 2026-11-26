@@ -1,0 +1,9 @@
+# Draft example only — not consumed by a LacikaProject build system.
+# Darwin 26 input settings are not yet implemented or validated.
+#
+# IOS must point to a locally supplied input directory outside this repository.
+# Do not commit IPSW files or extracted Apple system components.
+
+export IOS="${IOS:-}"
+export WALLPAPER="${WALLPAPER:-}"
+export METAL="${METAL:-}"

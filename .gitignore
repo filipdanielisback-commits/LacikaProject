@@ -22,3 +22,17 @@ Desktop.ini
 node_modules/
 dist/
 build/
+out/
+
+# Local-only Apple/device inputs — never commit firmware or extracted system files
+*.ipsw
+*.IPSW
+apple-inputs/
+local-inputs/
+ios26/
+ios27/
+
+# Local research captures and generated images
+*.pcap
+*.dmp
+*.core

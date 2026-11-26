@@ -1,48 +1,57 @@
 # LacikaProject
 
-**Experimental Darwin-based development research for Android devices.**
+**Independent Darwin/XNU research for Android-device architecture.**
 
-LacikaProject is an independent research project exploring the technical challenges of adapting and studying Darwin/XNU-based systems in the context of Android hardware.
+LacikaProject explores the technical questions involved in studying and adapting Darwin/XNU-related components in the context of Android hardware. The initial device research target is the Motorola Moto G60 (`hanoip`).
 
-> **Research status:** This project is experimental. A complete iOS distribution, Apple's proprietary components and services, and a working port to any listed Android device are not provided or guaranteed.
+> [!WARNING]
+> This repository is a research project. There is no confirmed LacikaProject boot on the Moto G60, no public bootable release, and no verified complete device port. A Darwin-based project is not the same thing as a complete iOS installation.
 
-## Current research target
+## Current project status
 
-- **Device:** Motorola Moto G60
-- **Codename:** hanoip
-- **Status:** Experimental research; hardware support is not verified.
+| Area | Current status |
+|---|---|
+| Moto G60 (`hanoip`) | Experimental research target |
+| Darwin/XNU adaptation | Research and architecture planning |
+| XNU integration | Not implemented or verified |
+| Device boot | Not confirmed |
+| Public bootable release | None |
+| LacikaWiFi | Research scaffold; no functional Wi-Fi driver |
+| QEMU work | Temporarily paused |
 
-Other devices may be listed as future research targets. A listing does not mean that a port exists or that the device is supported.
+A device name, folder, configuration example, mock test, or successful host-side compile must not be presented as proof of a working phone port.
 
-## Project goals
+## Repository map
 
-- Document device hardware and boot-chain research.
-- Study relevant Darwin/XNU architecture and compatibility requirements.
-- Record experiments, limitations, and reproducible findings.
-- Develop an independent project website and documentation.
+- `docs/` — architecture, roadmap, compatibility, development and project documentation.
+- `devices/motorola/moto-g60-hanoip/` — device-specific research notes.
+- `darwin/` — Darwin-related research and draft configuration examples.
+- `xnu/` — notes about the XNU kernel and upstream source references.
+- `drivers/wifi/` — LacikaWiFi research scaffold and host-side interface tests.
+- `research/` — broader hardware, kernel and compatibility notes.
+- `tests/` — host-side test documentation and future non-device test coverage.
+- `assets/` — non-proprietary project assets.
+- `source.html` — current source-code information page.
 
-## Repository layout
+## Important distinction: Darwin and iOS
 
-- `docs/` — project, development, device, and FAQ documentation.
-- `research/` — hardware, kernel, and compatibility research notes.
-- `assets/` — project artwork and other non-code assets (when added).
+Darwin/XNU is an important open-source foundation used by Apple operating systems. It is not the complete iOS distribution. iOS also contains proprietary components, services, frameworks and device-specific integrations. LacikaProject does not provide or claim those components.
+
+Apple-supplied firmware or system inputs must not be committed to this repository. Any future build design must keep user-supplied local inputs separate from project source and must respect the applicable licences and terms.
 
 ## Getting started
 
-This repository is being organized. Research notes and code will be added as they are written and reviewed. Check the documentation before attempting to reproduce an experiment.
+1. Read [Project overview](docs/PROJECT.md).
+2. Review [Architecture](docs/ARCHITECTURE.md) and [Development notes](docs/DEVELOPMENT.md).
+3. Check the [device research status](docs/DEVICE_SUPPORT.md).
+4. Read [Contributing](CONTRIBUTING.md) before proposing changes.
 
-## Contributing
+The draft files under `darwin/config/` document possible version-specific input variables only. They are not working build configurations and are not consumed by a build system yet.
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) before proposing changes. For security concerns, see [SECURITY.md](SECURITY.md).
+## Research integrity
 
-## Project status
+Label statements as **planned**, **hypothesis**, **experimental**, or **verified**. A result is verified only when its scope, environment, evidence and reproduction notes are recorded. Never invent hardware identifiers, firmware requirements, driver interfaces or test results.
 
-The repository currently documents research plans and project organization. It does not claim to contain a bootable system, a complete device port, or verified hardware support.
+## Independence and licensing
 
-## Independence
-
-LacikaProject is an independent, community-oriented research project. It is not affiliated with, endorsed by, or sponsored by Apple, Motorola, or any other device manufacturer or trademark owner.
-
-## License
-
-No license has been selected yet. Until a license is added, the project remains subject to applicable copyright law; do not assume that you have permission to reuse or redistribute its contents.
+LacikaProject is independent and is not affiliated with Apple, Motorola or other trademark owners. No project-wide licence has been selected yet. Until one is added, do not assume that repository content may be reused or redistributed. Check third-party licences separately.
