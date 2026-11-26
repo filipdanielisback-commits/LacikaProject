@@ -1,0 +1,749 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#11120f">
+  <title>Device Creator & Redeem — LacikaProject</title>
+  <link rel="stylesheet" href="style.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:#11120f;
+      --panel:#191b16;
+      --border:#35382d;
+      --text:#e9e9dc;
+      --muted:#999b8b;
+      --accent:#c5cf78;
+      --green:#a9c47a;
+      --yellow:#d8bd75;
+      --red:#d77b76;
+      --mono:"IBM Plex Mono",monospace;
+      --sans:"IBM Plex Sans",sans-serif;
+    }
+
+    * { box-sizing:border-box; }
+
+    body {
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:var(--sans);
+    }
+
+    button,input,select { font:inherit; }
+    a { color:inherit;text-decoration:none; }
+
+    .device-container {
+      width:min(1050px,calc(100% - 36px));
+      margin:auto;
+    }
+
+    .device-header {
+      position:sticky;
+      top:0;
+      z-index:1000;
+      background:#11120f;
+      border-bottom:1px solid var(--border);
+    }
+
+    .device-nav {
+      min-height:68px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:15px;
+      position:relative;
+    }
+
+    .device-logo {
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:700;
+    }
+
+    .device-logo-mark {
+      width:34px;
+      height:34px;
+      display:grid;
+      place-items:center;
+      border-radius:6px;
+      background:var(--accent);
+      color:#171910;
+      font-family:var(--mono);
+    }
+
+    .device-logo small {
+      display:block;
+      color:var(--muted);
+      font:9px var(--mono);
+      letter-spacing:1px;
+      margin-top:3px;
+    }
+
+    .device-menu-button {
+      display:none;
+      position:relative;
+      z-index:1002;
+      border:1px solid var(--border);
+      color:var(--text);
+      background:var(--panel);
+      border-radius:5px;
+      padding:10px 13px;
+      cursor:pointer;
+      touch-action:manipulation;
+    }
+
+    .device-menu {
+      display:flex;
+      gap:19px;
+      align-items:center;
+    }
+
+    .device-menu a,
+    .device-mobile-menu a {
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .device-menu a:hover,
+    .device-mobile-menu a:hover,
+    .device-menu a.active {
+      color:var(--accent);
+    }
+
+    .device-mobile-menu {
+      display:none;
+      padding:15px 0 20px;
+      border-top:1px solid var(--border);
+    }
+
+    .device-mobile-menu.open {
+      display:grid;
+      gap:16px;
+    }
+
+    .device-mobile-menu a {
+      display:block;
+      padding:3px 0;
+      font-size:14px;
+    }
+
+    .device-hero { padding:60px 0 35px; }
+
+    .device-kicker {
+      color:var(--accent);
+      font:10px var(--mono);
+      letter-spacing:1.4px;
+      margin-bottom:12px;
+    }
+
+    .device-hero h1 {
+      font-size:clamp(32px,5vw,47px);
+      letter-spacing:-1.5px;
+      margin:0 0 13px;
+    }
+
+    .device-hero h1 span { color:var(--accent); }
+
+    .device-hero p {
+      color:var(--muted);
+      line-height:1.8;
+      font-size:14px;
+      max-width:650px;
+    }
+
+    .device-section {
+      margin:20px 0 35px;
+      padding:24px;
+      border:1px solid var(--border);
+      background:var(--panel);
+      border-radius:8px;
+    }
+
+    .device-section h2 {
+      margin:0 0 9px;
+      font-size:21px;
+    }
+
+    .device-description {
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.7;
+      margin-bottom:20px;
+    }
+
+    .device-form { display:grid;gap:14px; }
+
+    .device-field { display:grid;gap:7px; }
+
+    .device-field label {
+      color:var(--muted);
+      font:10px var(--mono);
+      letter-spacing:.5px;
+    }
+
+    .device-field input,
+    .device-field select {
+      width:100%;
+      min-width:0;
+      background:#11120f;
+      color:var(--text);
+      border:1px solid var(--border);
+      border-radius:5px;
+      padding:12px;
+      outline:none;
+    }
+
+    .device-field input:focus,
+    .device-field select:focus { border-color:var(--accent); }
+
+    .device-field input::placeholder { color:#686b5e; }
+
+    .device-button {
+      border:1px solid var(--accent);
+      border-radius:5px;
+      background:var(--accent);
+      color:#171910;
+      padding:12px 16px;
+      font:600 10px var(--mono);
+      letter-spacing:.5px;
+      cursor:pointer;
+    }
+
+    .device-button:hover {
+      background:transparent;
+      color:var(--accent);
+    }
+
+    .device-button.secondary {
+      background:transparent;
+      color:var(--accent);
+    }
+
+    .device-button.danger {
+      border-color:rgba(215,123,118,.5);
+      color:var(--red);
+      background:transparent;
+    }
+
+    .device-message {
+      min-height:20px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.6;
+    }
+
+    .device-message.success { color:var(--green); }
+    .device-message.error { color:var(--red); }
+
+    .device-code-panel {
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:12px;
+      align-items:end;
+    }
+
+    .device-code-note {
+      margin-top:14px;
+      padding:12px;
+      background:#11120f;
+      border:1px solid var(--border);
+      border-radius:5px;
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.7;
+    }
+
+    .device-code-note strong { color:var(--text); }
+
+    .device-grid {
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:12px;
+    }
+
+    .device-entry {
+      padding:18px;
+      background:#11120f;
+      border:1px solid var(--border);
+      border-radius:6px;
+      min-width:0;
+    }
+
+    .device-entry h3 {
+      font-size:16px;
+      margin:0 0 7px;
+      overflow-wrap:anywhere;
+    }
+
+    .device-entry p {
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.8;
+      margin:5px 0;
+      overflow-wrap:anywhere;
+    }
+
+    .device-entry-top {
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:10px;
+      margin-bottom:12px;
+    }
+
+    .device-entry-icon {
+      width:34px;
+      height:34px;
+      display:grid;
+      place-items:center;
+      border:1px solid var(--border);
+      border-radius:5px;
+      color:var(--accent);
+      font-family:var(--mono);
+      flex-shrink:0;
+    }
+
+    .device-status {
+      display:inline-block;
+      margin-top:10px;
+      padding:5px 8px;
+      border:1px solid var(--border);
+      border-radius:4px;
+      font:9px var(--mono);
+      color:var(--yellow);
+    }
+
+    .device-status.demo { color:var(--muted); }
+
+    .device-entry-actions {
+      display:flex;
+      justify-content:flex-end;
+      margin-top:14px;
+    }
+
+    .device-entry-actions button {
+      padding:7px 10px;
+      font-size:9px;
+    }
+
+    .device-empty {
+      padding:28px 15px;
+      border:1px dashed var(--border);
+      border-radius:6px;
+      color:var(--muted);
+      text-align:center;
+      font-size:12px;
+      line-height:1.8;
+      grid-column:1/-1;
+    }
+
+    .device-form-grid {
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:14px;
+    }
+
+    .device-form-grid .full { grid-column:1/-1; }
+
+    .device-locked { opacity:.65; }
+    .device-locked .device-form { pointer-events:none; }
+
+    .device-info {
+      border-left:3px solid var(--accent);
+      padding:14px 16px;
+      background:#11120f;
+      border-radius:4px;
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.8;
+      margin-top:18px;
+    }
+
+    .device-info strong { color:var(--text); }
+
+    .device-footer {
+      border-top:1px solid var(--border);
+      margin-top:45px;
+      padding:25px 0;
+      color:var(--muted);
+      font-size:11px;
+    }
+
+    .device-footer-inner {
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    @media(max-width:760px) {
+      .device-menu-button { display:block; }
+      .device-menu { display:none; }
+
+      .device-mobile-menu {
+        display:none;
+      }
+
+      .device-mobile-menu.open {
+        display:grid;
+      }
+
+      .device-form-grid,
+      .device-grid {
+        grid-template-columns:1fr;
+      }
+
+      .device-section { padding:18px; }
+    }
+
+    @media(min-width:761px) {
+      .device-mobile-menu { display:none !important; }
+    }
+
+    @media(max-width:450px) {
+      .device-code-panel { grid-template-columns:1fr; }
+      .device-code-panel button { width:100%; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="device-header">
+    <div class="device-container device-nav">
+
+      <a href="index.html" class="device-logo">
+        <span class="device-logo-mark">LP</span>
+        <span>
+          LacikaProject
+          <small>DEVICE PORT RESEARCH</small>
+        </span>
+      </a>
+
+      <nav class="device-menu">
+        <a href="index.html">Home</a>
+        <a href="devices.html">Devices</a>
+        <a href="redeem.html" class="active">Redeem</a>
+        <a href="source.html">Source</a>
+        <a href="docs.html">Docs</a>
+        <a href="updates.html">Updates</a>
+      </nav>
+
+      <button
+        class="device-menu-button"
+        id="deviceMenuButton"
+        type="button"
+        aria-expanded="false"
+        aria-controls="deviceMobileMenu">
+        ☰ Menu
+      </button>
+
+    </div>
+
+    <nav class="device-container device-mobile-menu" id="deviceMobileMenu" aria-label="Mobile navigation">
+      <a href="index.html">Home</a>
+      <a href="devices.html">Devices</a>
+      <a href="redeem.html">Gift Cards & Redeem</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="source.html">Source Code</a>
+      <a href="releases.html">Releases</a>
+      <a href="changelog.html">Changelog</a>
+      <a href="updates.html">What's New</a>
+      <a href="settings.html">Settings</a>
+      <a href="docs.html">Documentation</a>
+      <a href="about.html">About</a>
+    </nav>
+  </header>
+
+  <main class="device-container">
+
+    <section class="device-hero">
+      <div class="device-kicker">COMMUNITY / DEVICE REGISTRY</div>
+      <h1>Device Creator <span>& Redeem</span></h1>
+      <p>
+        Redeem your LacikaProject code, create a custom device
+        registry entry, or generate a random demo device.
+      </p>
+    </section>
+
+    <section class="device-section">
+      <div class="device-kicker">01 / REWARD ACCESS</div>
+      <h2>🎟️ Redeem your code</h2>
+      <p class="device-description">
+        Enter the LacikaProject community code to unlock custom
+        device submissions in this browser.
+      </p>
+
+      <form id="lpRedeemForm" class="device-code-panel">
+        <div class="device-field">
+          <label for="lpGiftCode">REWARD CODE</label>
+          <input id="lpGiftCode" type="text" maxlength="40"
+            placeholder="Enter your code" autocomplete="off" required>
+        </div>
+        <button class="device-button" type="submit">REDEEM CODE →</button>
+      </form>
+
+      <p id="lpRedeemMessage" class="device-message" role="status" aria-live="polite"></p>
+
+      <div class="device-code-note">
+        <strong>Demo code:</strong> LACIKA-PORT-2026<br>
+        This is a local demonstration system. It does not issue real rewards.
+      </div>
+    </section>
+
+    <section class="device-section">
+      <div class="device-kicker">02 / RANDOM GENERATOR</div>
+      <h2>🎲 Random Device Generator</h2>
+      <p class="device-description">
+        Generate a sample device entry for experimenting with the registry.
+        Generated devices are fictional demo examples.
+      </p>
+      <button type="button" class="device-button" id="lpRandomButton">
+        GENERATE RANDOM DEVICE →
+      </button>
+      <p id="lpRandomMessage" class="device-message" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="device-section device-locked" id="lpCustomSection">
+      <div class="device-kicker">03 / CUSTOM SUBMISSION</div>
+      <h2>📱 Add your own device</h2>
+      <p class="device-description" id="lpCustomDescription">
+        Redeem the community code above to unlock this form.
+      </p>
+
+      <form id="lpCustomForm" class="device-form">
+        <div class="device-form-grid">
+          <div class="device-field">
+            <label for="lpManufacturer">MANUFACTURER</label>
+            <input id="lpManufacturer" maxlength="50" placeholder="Example: Motorola" required>
+          </div>
+
+          <div class="device-field">
+            <label for="lpModel">DEVICE MODEL</label>
+            <input id="lpModel" maxlength="70" placeholder="Example: Moto G60" required>
+          </div>
+
+          <div class="device-field">
+            <label for="lpCodename">DEVICE CODENAME</label>
+            <input id="lpCodename" maxlength="50" placeholder="Example: hanoip">
+          </div>
+
+          <div class="device-field">
+            <label for="lpChipset">CHIPSET</label>
+            <input id="lpChipset" maxlength="70" placeholder="Example: Snapdragon 732G">
+          </div>
+
+          <div class="device-field">
+            <label for="lpPortName">PORT / OS PROJECT</label>
+            <input id="lpPortName" maxlength="70" placeholder="Example: Darwin research">
+          </div>
+
+          <div class="device-field">
+            <label for="lpPortStatus">DEVELOPMENT STATUS</label>
+            <select id="lpPortStatus">
+              <option value="Research">Research</option>
+              <option value="In Development">In Development</option>
+              <option value="Testing">Testing</option>
+              <option value="Unverified">Unverified</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="device-button">
+          ADD DEVICE TO PORTFOLIO →
+        </button>
+      </form>
+
+      <p id="lpCustomMessage" class="device-message" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="device-section">
+      <div class="device-kicker">04 / LOCAL REGISTRY</div>
+      <h2>My Device Portfolio</h2>
+      <p class="device-description">
+        Your custom and generated device entries appear here.
+        They are saved locally in this browser.
+      </p>
+      <div class="device-grid" id="lpPortfolio">
+        <div class="device-empty">No devices have been added yet.</div>
+      </div>
+    </section>
+
+    <section class="device-section">
+      <div class="device-kicker">05 / IMPORTANT INFORMATION</div>
+      <h2>How the system works</h2>
+
+      <div class="device-info">
+        <strong>Local storage:</strong>
+        Entries are saved in this browser and do not automatically
+        appear on other devices or in the worldwide registry.
+      </div>
+
+      <div class="device-info">
+        <strong>Port development:</strong>
+        Creating a registry entry does not create a working operating
+        system port. Actual compatibility requires engineering and testing.
+      </div>
+
+      <div class="device-info">
+        <strong>Verification:</strong>
+        New submissions are unverified until reliable evidence is reviewed.
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="device-footer">
+    <div class="device-container device-footer-inner">
+      <span>© 2026 LacikaProject</span>
+      <span>INDEPENDENT DARWIN / XNU RESEARCH</span>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      "use strict";
+
+      // MOBILE MENU FIX
+      const menuButton = document.getElementById("deviceMenuButton");
+      const mobileMenu = document.getElementById("deviceMobileMenu");
+
+      function closeMenu() {
+        mobileMenu.classList.remove("open");
+        menuButton.setAttribute("aria-expanded", "false");
+      }
+
+      menuButton.addEventListener("click", event => {
+        event.stopPropagation();
+        const isOpen = mobileMenu.classList.toggle("open");
+        menuButton.setAttribute("aria-expanded", String(isOpen));
+      });
+
+      mobileMenu.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", closeMenu);
+      });
+
+      document.addEventListener("click", event => {
+        if (
+          mobileMenu.classList.contains("open") &&
+          !mobileMenu.contains(event.target) &&
+          !menuButton.contains(event.target)
+        ) {
+          closeMenu();
+        }
+      });
+
+      document.addEventListener("keydown", event => {
+        if (event.key === "Escape") closeMenu();
+      });
+
+      // DEVICE REGISTRY
+      const REDEEM_CODE = "LACIKA-PORT-2026";
+      const STORAGE_KEY = "lacika_device_registry_v2";
+      const UNLOCK_KEY = "lacika_custom_device_unlocked";
+
+      const $ = id => document.getElementById(id);
+
+      function readDevices() {
+        try {
+          const value = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+          return Array.isArray(value) ? value : [];
+        } catch {
+          return [];
+        }
+      }
+
+      function saveDevices(devices) {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(devices));
+          return true;
+        } catch {
+          return false;
+        }
+      }
+
+      function message(id, text, type = "") {
+        $(id).textContent = text;
+        $(id).className = "device-message " + type;
+      }
+
+      function unlocked() {
+        return localStorage.getItem(UNLOCK_KEY) === "true";
+      }
+
+      function renderPortfolio() {
+        const list = readDevices();
+        const container = $("lpPortfolio");
+        container.replaceChildren();
+
+        if (!list.length) {
+          const empty = document.createElement("div");
+          empty.className = "device-empty";
+          empty.textContent = "No devices have been added yet.";
+          container.appendChild(empty);
+          return;
+        }
+
+        list.forEach((device, index) => {
+          const card = document.createElement("article");
+          card.className = "device-entry";
+
+          const top = document.createElement("div");
+          top.className = "device-entry-top";
+
+          const heading = document.createElement("div");
+          heading.style.flex = "1";
+
+          const title = document.createElement("h3");
+          title.textContent = device.model || "Unnamed device";
+
+          const maker = document.createElement("p");
+          maker.textContent = device.manufacturer || "Unknown manufacturer";
+
+          heading.append(title, maker);
+
+          const icon = document.createElement("div");
+          icon.className = "device-entry-icon";
+          icon.textContent = String(device.manufacturer || "D").charAt(0).toUpperCase();
+
+          top.append(heading, icon);
+          card.appendChild(top);
+
+          [
+            ["Codename", device.codename],
+            ["Chipset", device.chipset],
+            ["Port project", device.port],
+            ["Development", device.status],
+            ["Entry type", device.demo ? "Random demo" : "Custom submission"]
+          ].forEach(([label, value]) => {
+            if (!value) return;
+            const line = document.createElement("p");
+            line.textContent = label + ": " + value;
+            card.appendChild(line);
+          });
+
+          const badge = document.createElement("span");
+          badge.className = "device-status" + (device.demo ? " demo" : "");
+          badge.textContent = device.demo ? "DEMO / UNVERIFIED" : "SUBMITTED / UNVERIFIED";
+
+          const actions = document.createElement("div");
+          actions.className = "device-entry-actions";
+
+          const remove = document.createElement("button");
+          remove.type = "button";
+          remove.className = "device-button danger";
+          remove.textContent = "DELETE ENTRY";
+
+          remove.addEventListener("click", () => {
+            const updated = readDevices();
+            updated.splice(index, 1);
+            if (saveDevices(updated)) renderPortfolio();
+   

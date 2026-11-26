@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080c18">
+  <title>What's New | LacikaProject</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <a class="logo" href="index.html">Lacika<span>Project</span></a>
+  <button class="menu-button" id="menuButton"
+    aria-expanded="false" aria-controls="menuPanel">
+    <span>☰</span> Menu
+  </button>
+</header>
+
+<nav class="menu-panel" id="menuPanel" hidden>
+  <a href="devices.html">📱 Supported Devices</a>
+  <a href="redeem.html">🎁 Gift Cards & Redeem</a>
+  <a href="gallery.html">🖼️ Screenshots / Gallery</a>
+  <a href="source.html">💻 Source Code</a>
+  <a href="releases.html">📦 Releases</a>
+  <a href="changelog.html">📋 Changelog</a>
+  <a href="updates.html">✨ What's New / Update Log</a>
+  <a href="settings.html">⚙️ Settings</a>
+  <a href="docs.html">📚 Documentation</a>
+  <a href="about.html">ℹ️ About LacikaProject</a>
+</nav>
+
+<main>
+  <section class="page-header">
+    <p class="tag">LATEST PROJECT NEWS</p>
+    <h1>What's New?</h1>
+    <p>Announcements, development updates and important project news.</p>
+  </section>
+
+  <section class="glass-card">
+    <p class="tag">NOVEMBER 26, 2026 · DEVELOPMENT UPDATE</p>
+    <h2>A new priority: Moto G60 boot-port research</h2>
+
+    <p>
+      LacikaProject is shifting its immediate development focus toward
+      researching an independent Darwin/XNU boot port for the
+      Motorola Moto G60.
+    </p>
+
+    <p>
+      Our first target remains the Moto G60, codename
+      <strong>hanoip</strong>. We are planning our own boot architecture,
+      loader components and device-specific platform support.
+    </p>
+
+    <h3>What we're focusing on</h3>
+    <ul>
+      <li><strong>LacikaBoot:</strong> Researching the boot architecture.</li>
+      <li><strong>LacikaXNULoader:</strong> Planning our independent loader.</li>
+      <li><strong>LacikaXNU:</strong> Investigating Apple's public XNU source and platform requirements.</li>
+      <li><strong>LacikaDrivers:</strong> Researching hardware support for hanoip.</li>
+    </ul>
+
+    <h3>What about QEMU?</h3>
+    <p>
+      QEMU development is temporarily paused while we prioritize
+      phone-port research. It remains part of our future development
+      plans and has not been cancelled.
+    </p>
+
+    <h3>Current status</h3>
+    <p>
+      <strong>Research phase — not yet booting on the Moto G60.</strong>
+      No working phone boot, completed port or bootable release is
+      being announced.
+    </p>
+  </section>
+
+  <section class="glass-card">
+    <p class="tag">NOVEMBER 25, 2026</p>
+    <h2>LacikaProject development started</h2>
+    <p>
+      The initial project repository, documentation structure and
+      website development were started. Early work also began on
+      Darwin/XNU research and the LacikaWiFi driver research scaffold.
+    </p>
+  </section>
+
+  <section class="glass-card">
+    <p class="tag">PROJECT LINKS</p>
+    <h2>Explore LacikaProject</h2>
+    <p>
+      Follow the project's documentation and development history.
+    </p>
+    <p>
+      <a class="button" href="changelog.html">View Changelog →</a>
+    </p>
+    <p>
+      <a class="button" href="source.html">Explore Source Code →</a>
+    </p>
+    <p>
+      <a class="button" href="devices.html">View Device Research →</a>
+    </p>
+  </section>
+</main>
+
+<footer>
+  <p>© 2026 LacikaProject. Independent experimental project.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,857 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#11120f">
+  <meta name="description" content="Global mobile operating-system port directory and independent device development references.">
+  <title>Global Ports — LacikaProject</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    :root {
+      --bg:#11120f;
+      --panel:#191b16;
+      --panel-hover:#20221c;
+      --border:#35382d;
+      --text:#e9e9dc;
+      --muted:#999b8b;
+      --accent:#c5cf78;
+      --green:#a9c47a;
+      --yellow:#d8bd75;
+      --mono:"IBM Plex Mono",monospace;
+      --sans:"IBM Plex Sans",sans-serif;
+    }
+
+    * {box-sizing:border-box;}
+
+    html {
+      scroll-behavior:smooth;
+      scroll-padding-top:85px;
+    }
+
+    body {
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:var(--sans);
+    }
+
+    a {color:inherit;text-decoration:none;}
+
+    .container {
+      width:min(1120px,calc(100% - 40px));
+      margin:0 auto;
+    }
+
+    .lp-header {
+      position:sticky;
+      top:0;
+      z-index:1000;
+      background:rgba(17,18,15,.98);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--border);
+    }
+
+    .lp-nav {
+      min-height:68px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+      position:relative;
+    }
+
+    .lp-brand {
+      display:flex;
+      align-items:center;
+      gap:11px;
+      font-weight:700;
+      white-space:nowrap;
+    }
+
+    .lp-brand-mark {
+      width:34px;
+      height:34px;
+      display:grid;
+      place-items:center;
+      background:var(--accent);
+      color:#171910;
+      border-radius:7px;
+      font-family:var(--mono);
+      font-weight:600;
+    }
+
+    .lp-brand small {
+      display:block;
+      color:var(--muted);
+      font-family:var(--mono);
+      font-size:9px;
+      font-weight:400;
+      margin-top:2px;
+      letter-spacing:1px;
+    }
+
+    .lp-menu-toggle {
+      position:absolute;
+      width:1px;
+      height:1px;
+      opacity:0;
+      pointer-events:none;
+    }
+
+    .lp-menu {
+      display:none;
+      position:relative;
+      z-index:1002;
+      padding:10px 14px;
+      background:#191b16;
+      border:1px solid var(--border);
+      border-radius:6px;
+      color:var(--text);
+      font-family:var(--mono);
+      font-size:11px;
+      cursor:pointer;
+    }
+
+    .lp-menu-close {display:none;}
+
+    .lp-menu-toggle:checked + .lp-menu .lp-menu-open {
+      display:none;
+    }
+
+    .lp-menu-toggle:checked + .lp-menu .lp-menu-close {
+      display:inline;
+    }
+
+    .lp-nav-links {
+      display:flex;
+      align-items:center;
+      gap:17px;
+    }
+
+    .lp-nav-links a {
+      color:var(--muted);
+      font-size:12px;
+      transition:color .2s;
+    }
+
+    .lp-nav-links a:hover,
+    .lp-nav-links a.active {
+      color:var(--accent);
+    }
+
+    .lp-main {padding-bottom:35px;}
+
+    .lp-section {
+      padding:38px 0;
+      border-top:1px solid var(--border);
+    }
+
+    .lp-kicker {
+      color:var(--accent);
+      font:10px var(--mono);
+      letter-spacing:1px;
+    }
+
+    .page-heading {padding:35px 0 27px;}
+
+    .page-heading h1 {
+      max-width:800px;
+      margin:12px 0;
+      font-size:clamp(29px,4vw,43px);
+      letter-spacing:-1.5px;
+      line-height:1.15;
+    }
+
+    .page-heading p {
+      max-width:690px;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.8;
+    }
+
+    .heading-label {
+      display:flex;
+      align-items:center;
+      gap:9px;
+      margin-top:22px;
+      color:var(--accent);
+      font:10px var(--mono);
+      letter-spacing:1px;
+    }
+
+    .live-indicator {
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:var(--accent);
+      box-shadow:0 0 10px rgba(197,207,120,.4);
+    }
+
+    .directory-meta {
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:18px;
+    }
+
+    .directory-meta span {
+      padding:6px 9px;
+      border:1px solid var(--border);
+      border-radius:4px;
+      color:var(--muted);
+      font:9px var(--mono);
+    }
+
+    .global-stats {
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:10px;
+      margin:15px 0 8px;
+    }
+
+    .global-stat {
+      min-width:0;
+      padding:17px;
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:7px;
+    }
+
+    .stat-label,
+    .stat-description {
+      display:block;
+      color:var(--muted);
+      font:9px var(--mono);
+    }
+
+    .global-stat strong {
+      display:block;
+      margin:9px 0 5px;
+      color:var(--accent);
+      font:600 29px var(--mono);
+    }
+
+    .stat-description {font-size:10px;}
+
+    .stats-disclaimer {
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.6;
+      margin:10px 0 28px;
+    }
+
+    .search-panel {
+      padding:19px;
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:7px;
+    }
+
+    .search-heading {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-bottom:15px;
+    }
+
+    .search-heading h2 {
+      margin:0;
+      font-size:17px;
+    }
+
+    .search-heading span {
+      color:var(--muted);
+      font:9px var(--mono);
+    }
+
+    .search-form {
+      display:flex;
+      gap:10px;
+    }
+
+    .search-form input {
+      flex:1;
+      min-width:0;
+      padding:12px 14px;
+      background:#11120f;
+      border:1px solid var(--border);
+      border-radius:5px;
+      color:var(--text);
+      font:12px var(--sans);
+      outline:none;
+    }
+
+    .search-form input:focus {
+      border-color:var(--accent);
+    }
+
+    .lp-button {
+      padding:11px 17px;
+      background:var(--accent);
+      color:#171910;
+      border:1px solid var(--accent);
+      border-radius:5px;
+      font:600 11px var(--mono);
+      cursor:pointer;
+    }
+
+    .filter-area {padding:25px 0;}
+
+    .filter-buttons {
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:13px;
+    }
+
+    .filter-btn {
+      padding:9px 13px;
+      background:var(--panel);
+      color:var(--muted);
+      border:1px solid var(--border);
+      border-radius:5px;
+      font:10px var(--mono);
+      cursor:pointer;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      color:var(--accent);
+      border-color:var(--accent);
+      background:#20221a;
+    }
+
+    .results-line {
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      padding:12px 0;
+      border-bottom:1px solid var(--border);
+      color:var(--muted);
+      font:9px var(--mono);
+      letter-spacing:.5px;
+    }
+
+    .global-device-list {
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:12px;
+      padding:16px 0 32px;
+    }
+
+    .global-device-card {
+      min-width:0;
+      padding:18px;
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:7px;
+      transition:border-color .2s,background .2s;
+    }
+
+    .global-device-card:hover {
+      background:var(--panel-hover);
+      border-color:#555944;
+    }
+
+    .global-card-top {
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+      padding-bottom:15px;
+      border-bottom:1px solid var(--border);
+    }
+
+    .global-brand {
+      color:var(--accent);
+      font:9px var(--mono);
+      letter-spacing:1px;
+    }
+
+    .global-card-top h2 {
+      margin:7px 0 4px;
+      font-size:20px;
+      letter-spacing:-.5px;
+    }
+
+    .global-codename {
+      color:var(--muted);
+      font:10px var(--mono);
+    }
+
+    .source-label {
+      padding:6px 8px;
+      background:#25271e;
+      border:1px solid var(--border);
+      border-radius:4px;
+      color:var(--accent);
+      font:9px var(--mono);
+      white-space:nowrap;
+    }
+
+    .global-card-details {
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:15px 10px;
+      padding:17px 0;
+    }
+
+    .global-card-details span {
+      display:block;
+      margin-bottom:5px;
+      color:var(--muted);
+      font:9px var(--mono);
+    }
+
+    .global-card-details strong {
+      font-size:12px;
+      font-weight:500;
+      overflow-wrap:anywhere;
+    }
+
+    .global-card-bottom {
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      padding-top:13px;
+      border-top:1px solid var(--border);
+    }
+
+    .global-status {
+      font:9px var(--mono);
+      letter-spacing:.3px;
+    }
+
+    .status-development {color:var(--yellow);}
+    .status-supported {color:var(--green);}
+
+    .global-card-bottom a,
+    .directory-card a {
+      color:var(--accent);
+      font:10px var(--mono);
+    }
+
+    .global-card-bottom a:hover,
+    .directory-card a:hover {
+      text-decoration:underline;
+    }
+
+    .global-card-note {
+      margin:13px 0 0;
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.7;
+    }
+
+    .no-results {
+      padding:35px 15px;
+      text-align:center;
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:7px;
+      margin-bottom:30px;
+    }
+
+    .no-results[hidden] {display:none;}
+
+    .no-results h3 {margin:0 0 8px;}
+    .no-results p {color:var(--muted);font-size:12px;}
+
+    .section-head {margin-bottom:20px;}
+
+    .section-head h2 {
+      margin:8px 0 0;
+      font-size:23px;
+      letter-spacing:-.5px;
+    }
+
+    .directory-grid {
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:12px;
+    }
+
+    .directory-card {
+      padding:19px;
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:7px;
+    }
+
+    .directory-type {
+      color:var(--accent);
+      font:9px var(--mono);
+    }
+
+    .directory-card h3 {
+      margin:12px 0 8px;
+      font-size:17px;
+    }
+
+    .directory-card p {
+      min-height:65px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.7;
+    }
+
+    .directory-numbers {
+      display:flex;
+      flex-wrap:wrap;
+      gap:7px;
+      margin:15px 0;
+    }
+
+    .directory-numbers strong {
+      padding:6px 8px;
+      background:#22241d;
+      border:1px solid var(--border);
+      border-radius:4px;
+      color:var(--text);
+      font:9px var(--mono);
+    }
+
+    .method-grid {
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:12px;
+    }
+
+    .method-card {
+      padding:18px;
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:7px;
+    }
+
+    .method-card > span {
+      color:var(--accent);
+      font:9px var(--mono);
+    }
+
+    .method-card h3 {
+      margin:12px 0 8px;
+      font-size:15px;
+    }
+
+    .method-card p {
+      margin:0;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.7;
+    }
+
+    .lp-notice {
+      display:flex;
+      gap:14px;
+      padding:19px;
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:7px;
+    }
+
+    .lp-notice-icon {
+      width:30px;
+      height:30px;
+      flex-shrink:0;
+      display:grid;
+      place-items:center;
+      background:#282b20;
+      border:1px solid var(--border);
+      border-radius:5px;
+      color:var(--accent);
+      font:600 13px var(--mono);
+    }
+
+    .lp-notice h3 {
+      margin:2px 0 8px;
+      font-size:14px;
+    }
+
+    .lp-notice p {
+      margin:0;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.8;
+    }
+
+    .lp-footer {
+      border-top:1px solid var(--border);
+      background:#151610;
+    }
+
+    .lp-footer-inner {
+      min-height:90px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:15px;
+      padding-top:18px;
+      padding-bottom:18px;
+      color:var(--muted);
+      font-size:10px;
+    }
+
+    .lp-footer-links {
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px;
+    }
+
+    .lp-footer-links a:hover {color:var(--accent);}
+
+    @media(max-width:800px) {
+      .lp-menu {
+        display:block;
+        position:relative;
+        z-index:1002;
+        padding:10px 14px;
+        background:#191b16;
+        border:1px solid var(--border);
+        border-radius:6px;
+        color:var(--text);
+        font-family:var(--mono);
+        font-size:11px;
+        cursor:pointer;
+        -webkit-tap-highlight-color:transparent;
+      }
+
+      .lp-nav-links {
+        display:none;
+        position:absolute;
+        top:100%;
+        left:0;
+        right:0;
+        z-index:1001;
+        padding:12px 20px 20px;
+        background:#151711;
+        border:1px solid var(--border);
+        border-top:0;
+        flex-direction:column;
+        align-items:stretch;
+        gap:0;
+        max-height:calc(100vh - 68px);
+        overflow-y:auto;
+        box-shadow:0 15px 25px rgba(0,0,0,.4);
+      }
+
+      .lp-menu-toggle:checked ~ .lp-nav-links {
+        display:flex;
+      }
+
+      .lp-nav-links a {
+        display:block;
+        padding:14px 5px;
+        border-bottom:1px solid rgba(255,255,255,.07);
+        font-size:14px;
+      }
+    }
+
+    @media(min-width:801px) {
+      .lp-menu {display:none!important;}
+      .lp-nav-links {display:flex!important;}
+    }
+
+    @media(max-width:700px) {
+      .global-stats {grid-template-columns:repeat(2,minmax(0,1fr));}
+      .global-device-list {grid-template-columns:1fr;}
+      .directory-grid,.method-grid {grid-template-columns:1fr;}
+      .directory-card p {min-height:0;}
+    }
+
+    @media(max-width:520px) {
+      .container {width:min(100% - 28px,1120px);}
+      .global-stat {padding:13px;}
+      .global-stat strong {font-size:25px;}
+      .search-heading {align-items:flex-start;flex-direction:column;}
+      .search-form {flex-direction:column;}
+      .search-form button {width:100%;}
+      .results-line {font-size:8px;}
+      .global-card-top h2 {font-size:18px;}
+      .source-label {font-size:8px;}
+      .lp-footer-inner {align-items:flex-start;flex-direction:column;}
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+      html {scroll-behavior:auto;}
+      *,*::before,*::after {transition:none!important;}
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="lp-header">
+  <div class="container lp-nav">
+    <a href="index.html" class="lp-brand">
+      <span class="lp-brand-mark">LP</span>
+      <span>
+        LacikaProject
+        <small>DARWIN MOBILE RESEARCH</small>
+      </span>
+    </a>
+
+    <input type="checkbox" id="lpMenuToggle" class="lp-menu-toggle" aria-label="Toggle navigation menu">
+
+    <label class="lp-menu" for="lpMenuToggle">
+      <span class="lp-menu-open">MENU</span>
+      <span class="lp-menu-close">CLOSE</span>
+    </label>
+
+    <nav class="lp-nav-links" id="lpNavigation" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="devices.html">Devices</a>
+      <a href="redeem.html">Redeem</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="global-ports.html" class="active" aria-current="page">Global Ports</a>
+      <a href="source.html">Source</a>
+      <a href="releases.html">Releases</a>
+      <a href="docs.html">Docs</a>
+      <a href="updates.html">Updates</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container lp-main">
+
+  <section class="page-heading">
+    <div class="lp-kicker">LACIKAPROJECT / WORLDWIDE DATABASE</div>
+
+    <div class="heading-label">
+      <span class="live-indicator"></span>
+      GLOBAL DIRECTORY
+    </div>
+
+    <h1>Global device ports.</h1>
+
+    <p>
+      Explore mobile devices with independently developed
+      operating-system ports from projects and developers
+      around the world. This directory links to external
+      projects and does not represent LacikaProject releases.
+    </p>
+
+    <div class="directory-meta">
+      <span>WORLDWIDE COVERAGE</span>
+      <span>INDEPENDENT PROJECTS</span>
+      <span>SOURCE-LINKED ENTRIES</span>
+    </div>
+  </section>
+
+  <div class="lp-kicker">DIRECTORY OVERVIEW</div>
+
+  <section class="global-stats">
+    <article class="global-stat">
+      <span class="stat-label">HAKIOS DEVICES</span>
+      <strong>55</strong>
+      <span class="stat-description">Source-reported listings</span>
+    </article>
+
+    <article class="global-stat">
+      <span class="stat-label">UBUNTU TOUCH</span>
+      <strong>111</strong>
+      <span class="stat-description">Source-reported listings</span>
+    </article>
+
+    <article class="global-stat">
+      <span class="stat-label">HAKIOS BUILDS</span>
+      <strong>57</strong>
+      <span class="stat-description">Published build entries</span>
+    </article>
+
+    <article class="global-stat">
+      <span class="stat-label">DIRECTORY SOURCES</span>
+      <strong>3</strong>
+      <span class="stat-description">Tracked databases</span>
+    </article>
+  </section>
+
+  <p class="stats-disclaimer">
+    Figures supplied by the original directory content, not independently
+    verified live counts. They may change and may overlap between projects.
+  </p>
+
+  <section class="search-panel">
+    <div class="search-heading">
+      <h2>Find a device</h2>
+      <span>GLOBAL DEVICE SEARCH</span>
+    </div>
+
+    <div class="search-form">
+      <input
+        type="search"
+        id="globalSearch"
+        placeholder="Search device, codename, project or brand..."
+        aria-label="Search global device directory">
+      <button class="lp-button" id="clearSearch" type="button">Clear search</button>
+    </div>
+  </section>
+
+  <section class="filter-area">
+    <div class="lp-kicker">FILTER DIRECTORY</div>
+
+    <div class="filter-buttons">
+      <button class="filter-btn active" data-filter="all" aria-pressed="true">All entries</button>
+      <button class="filter-btn" data-filter="darwin" aria-pressed="false">Darwin / XNU</button>
+      <button class="filter-btn" data-filter="linux" aria-pressed="false">Linux</button>
+      <button class="filter-btn" data-filter="supported" aria-pressed="false">Supported</button>
+      <button class="filter-btn" data-filter="development" aria-pressed="false">Development</button>
+    </div>
+  </section>
+
+  <div class="results-line">
+    <span>DISPLAYED DIRECTORY ENTRIES</span>
+    <span id="entryCount" aria-live="polite">6 entries</span>
+  </div>
+
+  <section class="global-device-list" id="globalDeviceList">
+
+    <article class="global-device-card"
+      data-family="darwin"
+      data-status="development"
+      data-search="motorola moto g60 xt2135-2 hanoip hakios darwin xnu snapdragon 732g">
+
+      <div class="global-card-top">
+        <div>
+          <span class="global-brand">MOTOROLA</span>
+          <h2>Moto G60</h2>
+          <span class="global-codename">hanoip · XT2135-2</span>
+        </div>
+        <span class="source-label">HAKIOS</span>
+      </div>
+
+      <div class="global-card-details">
+        <div><span>PROJECT</span><strong>HakiOS</strong></div>
+        <div><span>PLATFORM</span><strong>Darwin / XNU</strong></div>
+        <div><span>CHIPSET</span><strong>Snapdragon 732G</strong></div>
+        <div><span>LISTING</span><strong>Source directory</strong></div>
+      </div>
+
+      <div class="global-card-bottom">
+        <span class="global-status status-development">DEVELOPMENT LISTING</span>
+        <a href="https://hakios-developers.com/" target="_blank" rel="noopener noreferrer">View original source ↗</a>
+      </div>
+
+      <p class="global-card-note">
+        Listed by the HakiOS project. Its status belongs to HakiOS
+        and does not indicate a completed LacikaProject port.
+      </p>
+    </article>
+
+    <article class="global-device-card"
+      data-family="darwin"
+      data-status="supported"
+    

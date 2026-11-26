@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080c18">
+  <title>Settings | LacikaProject</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="navbar">
+  <a class="logo" href="index.html">Lacika<span>Project</span></a>
+
+  <button class="menu-button" id="menuButton"
+    aria-expanded="false" aria-controls="menuPanel">
+    <span>☰</span> Menu
+  </button>
+</header>
+
+<nav class="menu-panel" id="menuPanel" hidden>
+  <a href="devices.html">📱 Supported Devices</a>
+  <a href="redeem.html">🎁 Gift Cards & Redeem</a>
+  <a href="gallery.html">🖼️ Screenshots / Gallery</a>
+  <a href="source.html">💻 Source Code</a>
+  <a href="releases.html">📦 Releases</a>
+  <a href="changelog.html">📋 Changelog</a>
+  <a href="updates.html">✨ What's New / Update Log</a>
+  <a href="settings.html">⚙️ Settings</a>
+  <a href="docs.html">📚 Documentation</a>
+  <a href="about.html">ℹ️ About LacikaProject</a>
+</nav>
+
+<main>
+
+  <section class="page-header">
+    <p class="tag">PERSONALIZE YOUR EXPERIENCE</p>
+    <h1>Settings</h1>
+    <p>Customize your LacikaProject website experience.</p>
+  </section>
+
+  <!-- APPEARANCE -->
+
+  <section class="glass-card settings-card">
+    <p class="tag">APPEARANCE</p>
+    <h2>Website Theme</h2>
+
+    <p>
+      Choose between the standard dark and light appearance.
+    </p>
+
+    <button class="button" id="themeToggle" type="button">
+      Switch to Light Theme
+    </button>
+  </section>
+
+  <!-- CHRISTMAS EDITION -->
+
+  <section class="glass-card settings-card">
+    <p class="tag">🎄 SEASONAL EXPERIENCE</p>
+
+    <h2>Christmas Edition 2026</h2>
+
+    <p>
+      Experience the special LacikaProject Christmas design
+      with winter decorations, glowing lights, snowfall
+      and the flying Christmas sleigh.
+    </p>
+
+    <p>
+      <span class="status">Scheduled: December 1–31, 2026</span>
+    </p>
+
+    <div class="gallery-preview">
+      <div>
+        <h2>❄️ 🎄 🛷</h2>
+        <p>Christmas Glass UI</p>
+      </div>
+    </div>
+
+    <h3>Preview Christmas Design</h3>
+
+    <p>
+      Temporarily activate the Christmas design before its
+      scheduled launch. Preview access lasts 15 minutes.
+    </p>
+
+    <button
+      class="button"
+      id="previewChristmasButton"
+      type="button">
+      🎄 Preview Christmas Design
+    </button>
+
+    <p id="christmasPreviewStatus" aria-live="polite">
+      Christmas preview is currently inactive.
+    </p>
+
+    <p>
+      <small>
+        Preview access expires automatically after 15 minutes.
+        The regular seasonal schedule is not changed.
+      </small>
+    </p>
+  </section>
+
+  <!-- ACCESSIBILITY -->
+
+  <section class="glass-card settings-card">
+    <p class="tag">ACCESSIBILITY</p>
+    <h2>Motion and Effects</h2>
+
+    <p>
+      The website respects your device's reduced-motion
+      accessibility preference. Snowfall and sleigh movement
+      are disabled when reduced motion is enabled.
+    </p>
+  </section>
+
+  <!-- ABOUT SETTINGS -->
+
+  <section class="glass-card settings-card">
+    <p class="tag">ABOUT</p>
+    <h2>LacikaProject Settings</h2>
+
+    <p>
+      These settings control the appearance of this website.
+      They do not modify your phone, operating system or
+      device firmware.
+    </p>
+
+    <a class="button" href="index.html">
+      Back to Homepage →
+    </a>
+  </section>
+
+</main>
+
+<footer>
+  <p>
+    © <span data-current-year>2026</span>
+    LacikaProject. Independent experimental project.
+  </p>
+</footer>
+
+<script src="script.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const previewButton =
+    document.getElementById("previewChristmasButton");
+
+  const status =
+    document.getElementById("christmasPreviewStatus");
+
+  if (!previewButton || !status) return;
+
+  previewButton.addEventListener("click", () => {
+    const expiry = Date.now() + (15 * 60 * 1000);
+
+    try {
+      localStorage.setItem(
+        "lacika-christmas-preview-expiry",
+        String(expiry)
+      );
+    } catch (error) {
+      status.textContent =
+        "Preview could not be saved. Please enable browser storage.";
+      return;
+    }
+
+    status.textContent =
+      "Christmas preview enabled for 15 minutes! Opening homepage...";
+
+    window.location.href =
+      "index.html?christmas-preview=" + expiry;
+  });
+});
+</script>
+
+</body>
+</html>
